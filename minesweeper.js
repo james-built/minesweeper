@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', startGame)
 
 // Define your `board` object here!
-let gridSize = 4;
+var gridSize = 4;
 var cellNumber = 0;
 var board = {cells: []};
 var mineArray = [];
@@ -22,33 +22,19 @@ function randomiseMines (){
     }
   }
 }
-randomiseMines();
-
 // Build the game board
-function buildBoard (howLarge) {
-  for (let i = 0; i < howLarge; i++){
-    for (let j = 0; j < howLarge; j++){
+function buildBoard (gridSize) {
+  for (let i = 0; i < gridSize; i++){
+    for (let j = 0; j < gridSize; j++){
       board.cells.push({row: i, col: j, isMine: mineArray[cellNumber], hidden: true})
       cellNumber++;
     }
   }
 }
-buildBoard(gridSize);
-
-console.log (board);
-console.log (mineArray);
-// Function to reset the game
-/*
-var resetButton = document.getElementById("reset")
-resetButton.addEventListener("click", resetGame);
-
-function resetGame() {
-var board = {cells: []};
-buildBoard(gridSize);
-  }
-*/
 
 function startGame () {
+  randomiseMines();
+  buildBoard(gridSize);
   // Don't remove this function call: it makes the game work!
   for (let i = 0; i < board.cells.length; i++){
     board.cells[i].surroundingMines = countSurroundingMines(board.cells[i]);
@@ -94,3 +80,12 @@ function countSurroundingMines (cell) {
   return count;
 }
 
+// Function to reset the game
+function resetGame() {
+  document.getElementsByClassName("board")[0].innerHTML = "";
+  board = {cells: []};
+  mineArray = [];
+  cellNumber = 0;
+  //var cellNumber = 0;
+  startGame();
+}
